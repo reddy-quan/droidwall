@@ -574,6 +574,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 					}
 					break;
 			}
+			applyOrSaveRules();
 		}
 	}
 	
