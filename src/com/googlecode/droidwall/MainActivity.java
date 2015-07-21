@@ -617,7 +617,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 					switch (which) {
 					case DialogInterface.BUTTON_POSITIVE:
 						applyOrSaveRules();
-						finish();System.exit(0);
+						//finish();System.exit(0);
 						break;
 					case DialogInterface.BUTTON_NEGATIVE:
 						// Propagate the event back to perform the desired action
