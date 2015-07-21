@@ -631,6 +631,7 @@ public final class Api {
 			DroidApp app = null;
 			for (final ApplicationInfo apinfo : installed) {
 				boolean firstseem = false;
+				if (apinfo.uid < 10000) continue; //qj add this for avoid control system app
 				app = map.get(apinfo.uid);
 				// filter applications which are not allowed to access the Internet
 				if (app == null && PackageManager.PERMISSION_GRANTED != pkgmanager.checkPermission(Manifest.permission.INTERNET, apinfo.packageName)) {
@@ -670,7 +671,9 @@ public final class Api {
 			if (changed) {
 				edit.commit();
 			}
+			
 			/* add special applications to the list */
+			/* qj add this for avoid control system app
 			final DroidApp special[] = {
 				new DroidApp(SPECIAL_UID_ANY,"(Any application) - Same as selecting all applications", false, false),
 				new DroidApp(SPECIAL_UID_KERNEL,"(Kernel) - Linux kernel", false, false),
@@ -693,6 +696,7 @@ public final class Api {
 					map.put(app.uid, app);
 				}
 			}
+			*/
 			/* convert the map into an array */
 			applications = map.values().toArray(new DroidApp[map.size()]);;
 			return applications;
