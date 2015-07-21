@@ -127,7 +127,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
     	final Editor editor = prefs.edit();
     	boolean changed = false;
     	if (prefs.getString(Api.PREF_MODE, "").length() == 0) {
-    		editor.putString(Api.PREF_MODE, Api.MODE_WHITELIST);
+    		editor.putString(Api.PREF_MODE, Api.MODE_BLACKLIST);//qj default to MODE_BLACKLIST
     		changed = true;
     	}
     	/* delete the old preference names */
@@ -146,7 +146,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
      */
     private void refreshHeader() {
     	final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
-    	final String mode = prefs.getString(Api.PREF_MODE, Api.MODE_WHITELIST);
+    	final String mode = prefs.getString(Api.PREF_MODE, Api.MODE_BLACKLIST);//qj default to MODE_BLACKLIST
 		final TextView labelmode = (TextView) this.findViewById(R.id.label_mode);
     	final Resources res = getResources();
 		int resid = (mode.equals(Api.MODE_WHITELIST) ? R.string.mode_whitelist : R.string.mode_blacklist);
@@ -319,9 +319,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
     	menu.add(0, MENU_HELP, 0, R.string.help).setIcon(android.R.drawable.ic_menu_help);
     	menu.add(0, MENU_SHOWLOG, 0, R.string.show_log).setIcon(R.drawable.show);
     	menu.add(0, MENU_SHOWRULES, 0, R.string.showrules).setIcon(R.drawable.show);
-    	menu.add(0, MENU_CLEARLOG, 0, R.string.clear_log).setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+    	//qj menu.add(0, MENU_CLEARLOG, 0, R.string.clear_log).setIcon(android.R.drawable.ic_menu_close_clear_cancel);
     	menu.add(0, MENU_SETPWD, 0, R.string.setpwd).setIcon(android.R.drawable.ic_lock_lock);
-    	menu.add(0, MENU_SETCUSTOM, 0, R.string.set_custom_script);
+    	//qj menu.add(0, MENU_SETCUSTOM, 0, R.string.set_custom_script);
     	
     	return true;
     }
