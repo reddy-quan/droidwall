@@ -45,6 +45,7 @@
     <string name="toast_disabled">DroidWall: Firewall disabled!</string>
     <string name="toast_error_disabling">DroidWall: Error disabling firewall!</string>
     <string name="set_custom_script">Set custom script</string>
+	<string name="string_reset">reset the firewall</string>
     <string name="custom_script_defined">Custom script defined</string>
     <string name="custom_script_removed">Custom script removed</string>
     <string name="custom_script_error">Error saving custom script</string>
@@ -86,4 +87,5 @@
 	</string>
 	<string name="empty"></string>
 	<string name="mode">Mode: </string>
+	<string name="enable">Enabled </string>
 </resources>

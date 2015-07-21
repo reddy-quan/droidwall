@@ -56,6 +56,8 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Button;
+
 import android.widget.Toast;
 
 import com.googlecode.droidwall.Api.DroidApp;
@@ -77,11 +79,13 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 	private static final int MENU_CLEARLOG	= 7;
 	private static final int MENU_SETPWD	= 8;
 	private static final int MENU_SETCUSTOM = 9;
-	
+	private static final int MENU_RESET = 10;	
 	/** progress dialog instance */
 	private ListView listview = null;
 	/** indicates if the view has been modified and not yet saved */
 	private boolean dirty = false;
+
+	private Button mSwitch;
 	
     /** Called when the activity is first created. */
     @Override
@@ -93,8 +97,13 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 			getWindow().setFlags(FLAG_HARDWARE_ACCELERATED, FLAG_HARDWARE_ACCELERATED);
 		} catch (Exception e) {
 		}
+		
         checkPreferences();
 		setContentView(R.layout.main);
+
+		mSwitch = (Button) this.findViewById(R.id.label_enable);
+		this.findViewById(R.id.label_enable).setOnClickListener(this);
+		
 		this.findViewById(R.id.label_mode).setOnClickListener(this);
 		Api.assertBinaries(this, true);
     }
@@ -147,12 +156,13 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
     private void refreshHeader() {
     	final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
     	final String mode = prefs.getString(Api.PREF_MODE, Api.MODE_BLACKLIST);//qj default to MODE_BLACKLIST
-		final TextView labelmode = (TextView) this.findViewById(R.id.label_mode);
+	final Button labelmode = (Button) this.findViewById(R.id.label_mode);
     	final Resources res = getResources();
 		int resid = (mode.equals(Api.MODE_WHITELIST) ? R.string.mode_whitelist : R.string.mode_blacklist);
 		labelmode.setText(res.getString(R.string.mode_header, res.getString(resid)));
 		resid = (Api.isEnabled(this) ? R.string.title_enabled : R.string.title_disabled);
 		setTitle(res.getString(resid, Api.VERSION));
+		mSwitch.setText(Api.isEnabled(this) ? "Enabled" : "Disabled");
     }
     /**
      * Displays a dialog box to select the operation mode (black or white list)
@@ -322,6 +332,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
     	//qj menu.add(0, MENU_CLEARLOG, 0, R.string.clear_log).setIcon(android.R.drawable.ic_menu_close_clear_cancel);
     	menu.add(0, MENU_SETPWD, 0, R.string.setpwd).setIcon(android.R.drawable.ic_lock_lock);
     	//qj menu.add(0, MENU_SETCUSTOM, 0, R.string.set_custom_script);
+    	menu.add(0, MENU_RESET, 0, R.string.string_reset);
     	
     	return true;
     }
@@ -384,6 +395,10 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
     	case MENU_SETCUSTOM:
     		setCustomScript();
     		return true;
+	case MENU_RESET:
+		purgeRules();
+		return true;
+
     	}
     	return false;
     }
@@ -392,6 +407,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
      */
 	private void disableOrEnable() {
 		final boolean enabled = !Api.isEnabled(this);
+		mSwitch.setText(enabled ? "Enabled" : "Disabled");
 		Log.d("DroidWall", "Changing enabled status to: " + enabled);
 		Api.setEnabled(this, enabled);
 		if (enabled) {
@@ -584,6 +600,10 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		case R.id.label_mode:
 			selectMode();
 			break;
+		case R.id.label_enable:
+			disableOrEnable();
+			break;
+
 		}
 	}
 	
@@ -597,10 +617,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 					switch (which) {
 					case DialogInterface.BUTTON_POSITIVE:
 						applyOrSaveRules();
+						finish();System.exit(0);
 						break;
 					case DialogInterface.BUTTON_NEGATIVE:
 						// Propagate the event back to perform the desired action
 						MainActivity.super.onKeyDown(keyCode, event);
+						finish();System.exit(0);
 						break;
 					}
 				}

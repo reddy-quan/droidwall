@@ -45,6 +45,7 @@
     <string name="toast_disabled">DroidWall: 防火墙已禁用!</string>
     <string name="toast_error_disabling">DroidWall: 禁用用防火墙时出错!</string>
     <string name="set_custom_script">设置自定义脚本</string>
+	<string name="string_reset">清空防火墙</string>
     <string name="custom_script_defined">自定义脚本已定义</string>
     <string name="custom_script_removed">自定义脚本已删除</string>
     <string name="custom_script_error">保存自定义脚本时出错</string>
